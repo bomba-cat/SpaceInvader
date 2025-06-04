@@ -3,6 +3,8 @@ project(SpaceInvader C)
 
 add_executable(spaceinvader
 	src/main.c
+	src/player.c
+	src/framelimiter.c
 )
 
 message(${CMAKE_SOURCE_DIR})

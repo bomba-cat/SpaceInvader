@@ -3,41 +3,6 @@
 #define PLR_HEIGHT 50
 #define PLR_WIDTH 50
 
-uint32_t frameLimits = 0;
-FrameLimiter* frameLimiters = NULL;
-
-uint32_t pushFrameLimiter(FrameLimiter newFrameLimit)
-{
-	frameLimits++;
-	frameLimiters = realloc(frameLimiters, sizeof(FrameLimiter) * frameLimits);
-	frameLimiters[frameLimits-1] = newFrameLimit;
-	return frameLimits; /* to keep track of the index */
-}
-
-void handlePlayerMovement(void* playerData)
-{
-	ZFB_Entity* player = (ZFB_Entity*)playerData;
-
-	if(ZFB_IsKeyPressed(VK_LEFT))
-	{
-		player->physics.position.x -= player->width;
-	}
-	if(ZFB_IsKeyPressed(VK_RIGHT))
-	{
-		player->physics.position.x += player->width;
-	}
-	if(ZFB_IsKeyPressed(VK_UP))
-	{
-		player->physics.position.y -= player->height;
-	}
-	if(ZFB_IsKeyPressed(VK_DOWN))
-	{
-		player->physics.position.y += player->height;
-	}
-
-	return;
-}
-
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	ZFB_Device dev =
@@ -79,19 +44,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	MSG msg = {};
 	while(msg.message != WM_QUIT && quit != true)
 	{
-		/* Increment all frames from the FrameLimiters */
-		for(int i = 0; i < frameLimits; i++)
-		{
-			if(frameLimiters[i].frame < frameLimiters[i].limit)
-			{
-				frameLimiters[i].frame++;	
-			} else
-			{
-				frameLimiters[i].func(frameLimiters[i].params);
-				frameLimiters[i].frame = 0;
-			}
-		}
-
+		frameTick();
 		ZFB_WinMessage(&msg);
 
 		switch(event.type)
