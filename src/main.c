@@ -13,6 +13,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	};
 	ZFB_Event event = {};
 
+	ZFB_FrameLimiter* frameLimiters = malloc(sizeof(ZFB_FrameLimiter) * frameLimitCount);
+
 	ZFB_InitFB(&dev);
 	ZFB_EventInit();
 	ZFB_CreateWindow(&dev, hInstance, hPrevInstance, lpCmdLine, nShowCmd);
@@ -31,20 +33,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}; ZFB_Rect playerRect = {};
 
 	/* Frame Limiters */
-	frameLimiters = malloc(sizeof(FrameLimiter) * frameLimits);
-	uint32_t fHandlePlayerMovement = pushFrameLimiter((FrameLimiter)
+	uint32_t fHandlePlayerMovement = ZFB_PushFrameLimiter((ZFB_FrameLimiter)
 	{
-			.frame = 0,
-			.limit = 5,
-			.params = (void*)&player,
-			.func = handlePlayerMovement
+		.frame = 0,
+		.limit = 5,
+		.params = (void*)&player,
+		.func = handlePlayerMovement
+	});
+	uint32_t fHandlePlayerShooting = ZFB_PushFrameLimiter((ZFB_FrameLimiter)
+	{
+		.frame = 0,
+		.limit = 60,
+		.params = (void*)&player,
+		.func = handlePlayerShooting
 	});
 
 	bool quit = false;
 	MSG msg = {};
 	while(msg.message != WM_QUIT && quit != true)
 	{
-		frameTick();
+		ZFB_FrameTick();
 		ZFB_WinMessage(&msg);
 
 		switch(event.type)

@@ -3,23 +3,16 @@
 
 #include "ZFB.h"
 
-typedef struct
-{
-	uint32_t frame;
-	uint32_t limit;
-	void* params;
-	void (*func)(void* params);
-} FrameLimiter;
+extern uint8_t bulletLimit;
+extern uint8_t bulletCount;
+extern ZFB_Entity* bullets;
 
-extern uint32_t frameLimits;
-extern FrameLimiter* frameLimiters;
+/* Enemy */
+
 
 /* Player */
 void handlePlayerMovement(void* playerData);
-
-/* FrameLimiter */
-uint32_t pushFrameLimiter(FrameLimiter newFrameLimit);
-void frameTick();
+void handlePlayerShooting(void* playerData);
 
 /* Main */
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
