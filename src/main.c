@@ -20,7 +20,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ZFB_EventInit();
 	ZFB_CreateWindow(&dev, hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 
-    bullets = malloc(0);
+    bullets = malloc(sizeof(ZFB_Entity)*bulletLimit);
 
 	/* Create Entities and Rects */
 	ZFB_Entity player =
@@ -74,7 +74,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		/* Draw the background */
 		ZFB_DrawBG(dev, &ZFB_Purple, NULL);
 
-		/* Draw all Rects right here */
+        /* Draw bullets */
+        for (int i = 0; i < bulletCount; i++)
+        {
+            ZFB_Rect bullet = {};
+            ZFB_SyncEntity(&bullet, bullets[i]);
+            ZFB_DrawRect(dev, bullet, &ZFB_Yellow);
+        }
+
+		/* Draw Rects right here */
 		ZFB_DrawRect(dev, playerRect, &ZFB_Black);
 
 		ZFB_Present(dev);

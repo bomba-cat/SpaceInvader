@@ -45,9 +45,12 @@ void handlePlayerShooting(void* playerData)
 		.width = BULLET_W,
 		.height = BULLET_H,
 	};
+    bullets[bulletCount] = bulletEntity;
     bulletCount++;
-    bullets = realloc(bullets, sizeof(ZFB_Entity)*bulletCount);
-    bullets[bulletCount-1];
+    if (bulletCount > bulletLimit)
+    {
+        bulletCount = 0;
+    }
 
 	return;
 }
