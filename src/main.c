@@ -50,7 +50,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	uint32_t fHandlePlayerShooting = ZFB_PushFrameLimiter((ZFB_FrameLimiter)
 	{
 		.frame = 0,
-		.limit = 60,
+		.limit = 15,
 		.params = (void*)&player,
 		.func = handlePlayerShooting
 	});
@@ -74,9 +74,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		/* Draw the background */
 		ZFB_DrawBG(dev, &ZFB_Purple, NULL);
 
-        /* Draw bullets */
+        /* Draw and Update bullets */
         for (int i = 0; i < bulletCount; i++)
         {
+            bullets[i].physics.position.y -= 15;
+
             ZFB_Rect bullet = {};
             ZFB_SyncEntity(&bullet, bullets[i]);
             ZFB_DrawRect(dev, bullet, &ZFB_Yellow);
