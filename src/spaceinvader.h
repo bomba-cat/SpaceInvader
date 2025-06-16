@@ -5,7 +5,7 @@
 
 extern uint8_t bulletLimit;
 extern uint8_t bulletCount;
-extern ZFB_Entity* bullets;
+extern ZFB_Entity *bullets;
 
 /* Enemy */
 

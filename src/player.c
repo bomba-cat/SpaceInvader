@@ -45,6 +45,9 @@ void handlePlayerShooting(void* playerData)
 		.width = BULLET_W,
 		.height = BULLET_H,
 	};
+    bulletCount++;
+    bullets = realloc(bullets, sizeof(ZFB_Entity)*bulletCount);
+    bullets[bulletCount-1];
 
 	return;
 }

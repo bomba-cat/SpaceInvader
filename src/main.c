@@ -3,6 +3,8 @@
 #define PLR_HEIGHT 50
 #define PLR_WIDTH 50
 
+ZFB_Entity *bullets;
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	ZFB_Device dev =
@@ -18,12 +20,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ZFB_EventInit();
 	ZFB_CreateWindow(&dev, hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 
+    bullets = malloc(0);
+
 	/* Create Entities and Rects */
 	ZFB_Entity player =
 	{
 		.physics =
 		{
-			.position = { dev.width/2-(PLR_WIDTH/2), dev.height-(PLR_HEIGHT*3) },
+			.position =
+                {
+                    dev.width/2-(PLR_WIDTH/2),
+                    dev.height-(PLR_HEIGHT*3)
+                },
 			.rotation = 0,
 			.gravity = false,
 		},
@@ -48,11 +56,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	});
 
 	bool quit = false;
-	MSG msg = {};
-	while(msg.message != WM_QUIT && quit != true)
+	while(quit != true)
 	{
 		ZFB_FrameTick();
-		ZFB_WinMessage(&msg);
+		ZFB_WinMessage();
+        ZFB_PollEvent(&event);
 
 		switch(event.type)
 		{
@@ -73,4 +81,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		Sleep(16); /* ~60 fps */
 	}
+    free(bullets);
 }
