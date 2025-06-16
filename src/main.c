@@ -13,8 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	};
 	ZFB_Event event = {};
 
-	ZFB_FrameLimiter* frameLimiters = malloc(sizeof(ZFB_FrameLimiter) * frameLimitCount);
-
+	ZFB_InitFrameLimiter();
 	ZFB_InitFB(&dev);
 	ZFB_EventInit();
 	ZFB_CreateWindow(&dev, hInstance, hPrevInstance, lpCmdLine, nShowCmd);
