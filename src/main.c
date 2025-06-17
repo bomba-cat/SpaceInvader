@@ -79,7 +79,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 	bool quit = false;
     spawnEnemies();
-	while(quit != true)
+	while(quit != true && !ZFB_IsKeyPressed(ZFB_Key_Escape))
 	{
 		ZFB_FrameTick();
 		ZFB_WinMessage();
