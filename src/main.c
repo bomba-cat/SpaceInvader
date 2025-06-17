@@ -85,6 +85,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ZFB_WinMessage();
         ZFB_PollEvent(&event);
 
+        if (ZFB_IsKeyPressed(ZFB_Key_R))
+        {
+            spawnEnemies();
+        }
+
 		switch(event.type)
 		{
 			case ZFB_EVENT_QUIT:

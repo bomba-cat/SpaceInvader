@@ -39,7 +39,7 @@ void handlePlayerShooting(void* playerData)
 		{
 			.position = 
                 {
-                    playerEntity->physics.position.x+(playerEntity->width/2),
+                    playerEntity->physics.position.x+(playerEntity->width/2)-(BULLET_W/2),
                     playerEntity->physics.position.y,
                 },
 			.rotation = playerEntity->physics.rotation,
