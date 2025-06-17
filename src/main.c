@@ -4,6 +4,7 @@
 #define PLR_WIDTH 50
 
 ZFB_Entity *bullets;
+ZFB_Entity *enemies;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -21,6 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ZFB_CreateWindow(&dev, hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 
     bullets = malloc(sizeof(ZFB_Entity)*bulletLimit);
+    enemies = malloc(sizeof(ZFB_Entity)*enemyCount);
 
 	/* Create Entities and Rects */
 	ZFB_Entity player =
@@ -54,8 +56,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		.params = (void*)&player,
 		.func = handlePlayerShooting
 	});
+    uint32_t fHandleEnemyMovement = ZFB_PushFrameLimiter((ZFB_FrameLimiter)
+    {
+        .frame = 0,
+        .limit = 15,
+        .params = NULL,
+        .func = handleEnemyMovement
+    });
+    uint32_t fHandleBulletCollision = ZFB_PushFrameLimiter((ZFB_FrameLimiter)
+    {
+        .frame = 0,
+        .limit = 0,
+        .params = NULL,
+        .func = handleBulletCollision
+    });
 
+    while(!ZFB_IsKeyPressed(ZFB_Key_Enter))
+    {
+        ZFB_WinMessage();
+        ZFB_DrawBG(dev, &ZFB_Purple, NULL);
+        Sleep(32);
+    }
 	bool quit = false;
+    spawnEnemies();
 	while(quit != true)
 	{
 		ZFB_FrameTick();
@@ -82,6 +105,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             ZFB_Rect bullet = {};
             ZFB_SyncEntity(&bullet, bullets[i]);
             ZFB_DrawRect(dev, bullet, &ZFB_Yellow);
+        }
+
+        /* Draw Enemies */
+        for (int i = 0; i < enemyCount; i++)
+        {
+            ZFB_Rect enemy = {};
+            if(!enemies[i].physics.gravity)
+            {
+                ZFB_SyncEntity(&enemy, enemies[i]);
+                ZFB_DrawRect(dev, enemy, &ZFB_Red);
+            }
         }
 
 		/* Draw Rects right here */

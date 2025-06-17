@@ -14,3 +14,4 @@ cmake --build build
 
 # Note
 This has been developed with the Windows version of [ZFB](https://github.com/The-Sigmas/ZFB.git).
+If the static library in `lib/libZFB.a` causes you any issues then consider building libZFB.a from source.

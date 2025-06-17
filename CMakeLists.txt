@@ -4,6 +4,8 @@ project(SpaceInvader C)
 add_executable(spaceinvader
 	src/main.c
 	src/player.c
+    src/enemy.c
+    src/game.c
 )
 
 message(${CMAKE_SOURCE_DIR})
