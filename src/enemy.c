@@ -10,6 +10,11 @@ void handleEnemyMovement(void*)
 {
     for (int i = 0; i < enemyCount; i++)
     {
+        if (enemies[i].physics.gravity)
+        {
+            return;
+        }
+        
         enemies[i].physics.position.x += ENEMY_WIDTH+ENEMY_MARGIN;
         if (enemies[i].physics.position.x >= 1280-ENEMY_WIDTH)
         {
@@ -29,6 +34,11 @@ void handleBulletCollision(void*)
             if(ZFB_CheckCollision(bullets[j], enemies[i]))
             {
                 enemies[i].physics.gravity = true;
+                enemies[i].physics.position.x = -ENEMY_WIDTH;
+
+
+                bullets[j].physics.gravity = true;
+                bullets[j].physics.position.x = -ENEMY_WIDTH;
             }
         }
     }

@@ -1,9 +1,9 @@
 #include "spaceinvader.h"
 
-#define BULLET_W 5
-#define BULLET_H 10
+#define BULLET_W 15
+#define BULLET_H 25
 
-uint8_t bulletLimit = 50;
+uint8_t bulletLimit = 15;
 uint8_t bulletCount = 0;
 
 void handlePlayerMovement(void* playerData)
@@ -32,6 +32,10 @@ void handlePlayerMovement(void* playerData)
 
 void handlePlayerShooting(void* playerData)
 {
+    if(!ZFB_IsKeyPressed(ZFB_Key_Space))
+    {
+        return;
+    }
 	ZFB_Entity* playerEntity = (ZFB_Entity*)playerData;
 	ZFB_Entity bulletEntity =
 	{
@@ -49,12 +53,12 @@ void handlePlayerShooting(void* playerData)
 		.width = BULLET_W,
 		.height = BULLET_H,
 	};
-    bullets[bulletCount] = bulletEntity;
+    bullets[bulletCount % (bulletLimit+1)] = bulletEntity;
     bulletCount++;
-    if (bulletCount > bulletLimit)
+    /*if (bulletCount > bulletLimit)
     {
         bulletCount = 0;
-    }
+    }*/
 
 	return;
 }

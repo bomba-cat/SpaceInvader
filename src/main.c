@@ -105,11 +105,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         /* Draw and Update bullets */
         for (int i = 0; i < bulletCount; i++)
         {
-            bullets[i].physics.position.y -= 15;
-
             ZFB_Rect bullet = {};
-            ZFB_SyncEntity(&bullet, bullets[i]);
-            ZFB_DrawRect(dev, bullet, &ZFB_Yellow);
+            if(!bullets[i].physics.gravity)
+            {
+                bullets[i].physics.position.y -= 15;
+                ZFB_SyncEntity(&bullet, bullets[i]);
+                ZFB_DrawRect(dev, bullet, &ZFB_Yellow);
+            }
         }
 
         /* Draw Enemies */
